@@ -20,7 +20,15 @@ class RegistrationScreen:
         date = f"DATE({self.date_of_birth.get()})"
 
 
-        self.saveDataToDataBase(self.name.get() , date ,self.gender.get(),self.phone.get(),self.email.get(),address,self.govt_id_type.get(),self.govt_id_number.get(),dict1[self.blood_group.get()] ,root1,root2)
+        self.saveDataToDataBase(self.name.get(),
+                                date ,self.gender.get(),
+                                self.phone.get(),
+                                self.email.get(),
+                                address,
+                                self.govt_id_type.get(),
+                                self.govt_id_number.get(),
+                                dict1[self.blood_group.get()] ,
+                                root1 , root2)
 
     print('Form Not Submitted')
 

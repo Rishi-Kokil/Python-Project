@@ -12,45 +12,53 @@ import datetime
 
 class RegistrationScreen:
     obj1 = DatabaseConnection.Connection()
-    number = obj1.countingNoOfRows()
 
     def getData(self , root1 , root2):
         dict1 = {"A+ve" : "A_positive", "A-ve": "A_negative", "B+ve": "B_positive", "B-ve": "B_negative", "AB+ve": "AB_positive","AB-ve": "AB_negative","O+ve": "O_positive","O-ve": "O_negative"}
-        address = self.address_text.get("1.0",END).replace('\n' , " ")
-        date = f"DATE({self.date_of_birth.get()})"
 
+        address = self.address_text.get("1.0", END).replace('\n', " ")
 
-        self.saveDataToDataBase(self.name.get(),
-                                date ,self.gender.get(),
-                                self.phone.get(),
-                                self.email.get(),
-                                address,
-                                self.govt_id_type.get(),
-                                self.govt_id_number.get(),
-                                dict1[self.blood_group.get()] ,
-                                root1 , root2)
+        stripped_address = address.strip()
 
-    print('Form Not Submitted')
+        self.unique_id = "VBC" + str(self.row_count) + str(datetime.date.today())
+        self.sqlQuery = strQuery = f'''INSERT INTO REGISTRATION VALUES ("{(self.unique_id)}","{self.name.get()}","{self.gender.get()}",'{self.date_of_birth.get()}',"{self.phone.get()}","{self.email.get()}","{stripped_address}","{self.govt_id_type.get()}","{self.govt_id_number.get()}",'{datetime.date.today() }',"{dict1[self.blood_group.get()] }"); '''
+        flag = False
 
-    def saveDataToDataBase(self,  name , date_of_birth , gender , phone , email , address , govt_id_type , govt_id_number , blood_group , root1 , root2):
+        try:
+            self.mycursor.execute(self.sqlQuery)
+            self.mydb.commit()
+            flag = True
 
-        # date_of_registration = datetime.date.today()
-        # unique_id = "VBC" + str(RegistrationScreen.number) + str(date_of_registration.year)
-        #
-        # strQuery = f"INSERT INTO REGISTRATION VALUES ({unique_id},{name},{gender},{date_of_birth},{phone},{email},{address},{govt_id_type},{govt_id_number},{str(date_of_registration.year)},{blood_group}); "
-        # print(strQuery)
-        #
-        # try:
-        #     DatabaseConnection.Connection.mycursor.execute(strQuery)
-        # except Exception as e:
-        #     print("An error occurred:", e)
-        #     return
+        except Exception as e:
+            flag = False
+            print("An exception occurred: ", e)
 
+        if(flag):
+            self.mydb.close()
+            root1.destroy()
+            root2.HomeScreen()
+        else:
+            print('Query Not Executed')
+
+        print("Registration:- ",self.mydb.is_connected())
+
+    def backButton(self , root1 , root2):
         root1.destroy()
         root2.HomeScreen()
 
-
     def __init__(self):
+
+        # --------------------------------DatabaseConnection For storing and retriving Data---------------
+        self.mydb = mysql.connector.connect(host="localhost", user="root", password="tiger")
+        self.mycursor = self.mydb.cursor()
+        print(self.mydb)
+        self.mycursor.execute("USE BLOODBANK")
+        # getting no of rows in registration table
+        self.mycursor.execute("SELECT * FROM REGISTRATION;")
+        resultSet = self.mycursor.fetchall()    #returns List of Tuples
+
+        self.row_count = len(resultSet)
+        # ----------------------------------------------------------------------------------------------
         self.registrationScreen = Tk()
         self.registrationScreen.title("Registration Screen")
         self.registrationScreen.geometry("1000x700")
@@ -58,6 +66,7 @@ class RegistrationScreen:
         self.registrationScreen.wm_attributes('-fullscreen', True)
 
         # ----------------Variables=================
+
         self.name = StringVar()
         self.date_of_birth = StringVar()
         self.gender = StringVar()
@@ -68,10 +77,19 @@ class RegistrationScreen:
         self.govt_id_number = StringVar()
         self.blood_group = StringVar()
 
+        self.unique_id = ""
+        self.sqlQuery = ""
+
         # ---------------------------------
 
         self.title = Label(self.registrationScreen, text="Registeration Form", font=(Constants.Constants.titleFont, 25),background=Constants.Constants.frameBackground )
         self.title.place(relx=0, rely=0, relwidth=1 , relheight= 0.09)
+
+        photo = tk.PhotoImage(file="left_arrow.png").subsample(11, 11)
+        Button(self.registrationScreen, text='back', image=photo, anchor="center",
+               background=Constants.Constants.frameBackground, relief=FLAT,
+               command=lambda: self.backButton(self.registrationScreen, HomeScreen)).place(relx=0.01, rely=0.01,
+                                                                                           relheight=0.08)
 
 
         ttk.Style().configure("pad.TEntry", padding="1 1 1 1")

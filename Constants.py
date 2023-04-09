@@ -8,4 +8,7 @@ class Constants:
     titleFont = "Open Sans"
     subTitleFont = "Sans Serif"
 
+    titleColor = "#292A2A"
+    subTitleColor = "#373838"
+    subSubTitleColor = "#737373"
 

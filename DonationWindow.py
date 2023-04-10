@@ -5,7 +5,7 @@ import Constants
 import mysql.connector
 import HomeScreen
 import datetime
-
+from tkinter import messagebox
 
 class DonationScreen:
 
@@ -36,18 +36,21 @@ class DonationScreen:
 
         if (flag):
             self.mydb.close()
+            title = "Successful"
+            message = "Your Entry has been made"
+            messagebox.showinfo(title, message)
             root1.destroy()
             root2.HomeScreen()
         else:
             print('Query Not Executed')
 
-        print("Registration:- ", self.mydb.is_connected())
+        print("blood donation:- ", self.mydb.is_connected())
 
 
     def getData(self):
-        self.sname = "VBC02023-04-09"
-        # sqlQuery = f"SELECT * FROM REGISTRATION WHERE REGISTRATION_ID = '{self.searchname.get()}';"
-        sqlQuery = f"SELECT * FROM REGISTRATION WHERE REGISTRATION_ID = '{self.sname}';"
+        # self.sname = "VBC02023-04-10"
+        sqlQuery = f"SELECT * FROM REGISTRATION WHERE REGISTRATION_ID = '{self.searchname.get()}';"
+        # sqlQuery = f"SELECT * FROM REGISTRATION WHERE REGISTRATION_ID = '{self.sname}';"
         print(sqlQuery)
         self.mycursor.execute(sqlQuery)
         resultSet = self.mycursor.fetchall()
@@ -59,7 +62,7 @@ class DonationScreen:
             for data in resultSet:
                 print('entered else')
                 self.userFrame = Frame(self.donationScreen, bg=Constants.Constants.frameBackground)
-                self.userFrame.place(relx=0.01, rely=0.15, relwidth=0.98, relheight=0.2)
+                self.userFrame.place(relx=0.01, rely=0.33, relwidth=0.98, relheight=0.2)
                 self.reg_id = data[0]
                 self.name = data[1]
                 self.phone = data[4]
@@ -124,12 +127,21 @@ class DonationScreen:
         self.email = ""
 
         # ------------------------
+        self.titleLabel = Label(self.donationScreen,
+                                text="Blood Donation",
+                                font=(Constants.Constants.titleFont, 35, "bold"),
+                                padx=10,
+                                pady=5,
+                                bg=Constants.Constants.secondaryColor,anchor='center'
+                                )
+        self.titleLabel.place(relx=0.01, rely=0.01, relwidth=0.98, relheight=0.15)
+
 
         self.searchBar = LabelFrame(self.donationScreen,
                                     background=Constants.Constants.frameBackground,
                                     foreground=Constants.Constants.frameForeground,
                                     font=(Constants.Constants.titleFont, 15), relief=FLAT, labelanchor="nw")
-        self.searchBar.place(relx=0.01, rely=0.01, relwidth=0.98, relheight=0.1)
+        self.searchBar.place(relx=0.01, rely=0.2, relwidth=0.98, relheight=0.1)
 
         self.sname = Entry(self.searchBar, font=(Constants.Constants.subTitleFont, 18),  background= Constants.Constants.secondaryColor,
                               textvariable=self.searchname)

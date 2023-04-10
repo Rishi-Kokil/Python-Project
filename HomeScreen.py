@@ -4,6 +4,10 @@ import Constants
 import RegistrationWindow
 import LoginScreen
 import DonationWindow
+import BloodRecieptWindow
+import BloodAvailability
+from tkinter import messagebox
+
 
 class HomeScreen:
     def _registration(self , root1 , root2):
@@ -17,6 +21,15 @@ class HomeScreen:
         root1.destroy()
         root2.LoginScreen()
 
+    def bloodbankINfo(self , root1 , root2):
+        root1.destroy()
+        root2.BloodAvailability()
+
+    def bloodrequestButton(self,root1 , root2):
+        root1.destroy()
+        root2.BloodReceiptScreen()
+
+
     def __init__(self):
 
         self.homeScreen = Tk()
@@ -25,13 +38,10 @@ class HomeScreen:
         self.homeScreen.config(bg = Constants.Constants.secondaryColor)
         self.homeScreen.attributes('-fullscreen', True)
 
-
-
-        photo = tk.PhotoImage(file="left_arrow.png").subsample(9, 9)
+        photo = tk.PhotoImage(file="BackButton.png").subsample(6, 6)
         Button(self.homeScreen, text='back', image=photo, anchor="center",
                background=Constants.Constants.secondaryColor, relief=FLAT,
-               command=lambda: self.backButton(self.homeScreen, LoginScreen)).place(relx=0.01, rely=0.01,
-                                                                                           relheight=0.08)
+               command=lambda: self.backButton(self.homeScreen, LoginScreen)).place(relx=0.01, rely=0.01,relheight=0.08)
 
         self.titleLabel = Label(self.homeScreen,
                                 text="Home",
@@ -58,12 +68,11 @@ class HomeScreen:
                               command=lambda: self._donation(self.homeScreen , DonationWindow))
         self.DonateBloodButton.place(relx=0.53, rely=0.4, relwidth=0.25 , relheight=0.15 )
         self.Blood_Availability = Button(self.homeScreen,
-                              text='Blood Availability',
+                              text='BloodBank Info',
                               font=(Constants.Constants.subTitleFont, 20),
                               bg=Constants.Constants.primaryColor,
                               fg=Constants.Constants.secondaryColor,
-                              command=lambda: self._checkUserNamePassword(username.get(), password.get(),
-                                                                          self.loginscreen, HomeScreen))
+                              command=lambda: self.bloodbankINfo(self.homeScreen , BloodAvailability))
         self.Blood_Availability.place(relx=0.22, rely=0.65, relwidth=0.25 , relheight=0.15)
 
         self.GiveBlood = Button(self.homeScreen,
@@ -71,11 +80,10 @@ class HomeScreen:
                               font=(Constants.Constants.subTitleFont, 20),
                               bg=Constants.Constants.primaryColor,
                               fg=Constants.Constants.secondaryColor,
-                              command=lambda: self._checkUserNamePassword(username.get(), password.get(),
-                                                                          self.loginscreen, HomeScreen))
+                              command=lambda: self.bloodrequestButton(self.homeScreen , BloodRecieptWindow))
         self.GiveBlood.place(relx=0.53, rely=0.65, relwidth=0.25 , relheight=0.15)
-
 
 
         self.homeScreen.mainloop()
 
+# obj = HomeScreen()

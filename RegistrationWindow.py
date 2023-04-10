@@ -7,7 +7,7 @@ import mysql.connector
 import DatabaseConnection
 import HomeScreen
 import datetime
-
+from tkinter import messagebox
 
 
 class RegistrationScreen:
@@ -35,8 +35,12 @@ class RegistrationScreen:
 
         if(flag):
             self.mydb.close()
+            title = "Successful"
+            message = "Your Data has been stored int the Database"
+            messagebox.showinfo(title, message)
             root1.destroy()
             root2.HomeScreen()
+
         else:
             print('Query Not Executed')
 

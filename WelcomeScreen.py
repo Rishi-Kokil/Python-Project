@@ -15,6 +15,7 @@ class WelcomeScreen:
         self.welcomeScreen.title('VESIT Blood Donation Centre')
         self.welcomeScreen.geometry('1000x700')
         self.welcomeScreen.config(bg = Constants.Constants.secondaryColor)
+        self.welcomeScreen.wm_attributes('-fullscreen', True)
 
         self.titleLabel = Label(self.welcomeScreen,
                            text="VESIT \n Blood Donation Centre",

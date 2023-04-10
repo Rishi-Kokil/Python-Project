@@ -4,6 +4,7 @@ import tkinter.ttk as ttk
 import Constants
 import mysql.connector
 import HomeScreen
+from tkinter import messagebox
 
 class LoginScreen:
     def _checkUserNamePassword(self , root1 , root2):
@@ -20,7 +21,9 @@ class LoginScreen:
             root1.destroy()
             root2.HomeScreen()
         else:
-            print("Not SuccessFull")
+            title = "Error while Logging In"
+            text = "Invalid Unsername Or Password"
+            messagebox.showinfo(title , text)
 
 
     def __init__(self):
@@ -34,6 +37,7 @@ class LoginScreen:
         self.loginscreen.title('Login')
         self.loginscreen.geometry('1000x700')
         self.loginscreen.config(bg = Constants.Constants.secondaryColor)
+        self.loginscreen.wm_attributes('-fullscreen', True)
 
         self.username = StringVar()
         self.password = StringVar()
@@ -71,8 +75,6 @@ class LoginScreen:
 
         self.password = ttk.Entry(self.frame2 , font=(Constants.Constants.subTitleFont , 15),show="*"  ,style="pad.TEntry" , textvariable= self.password,)
         self.password.place(relx=0.1 , rely=0.4 , relwidth= 0.80)
-
-
 
         self.button1 = Button(self.frame2,
                               text='Login',

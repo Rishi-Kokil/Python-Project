@@ -85,5 +85,3 @@ class HomeScreen:
 
 
         self.homeScreen.mainloop()
-
-# obj = HomeScreen()

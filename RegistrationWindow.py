@@ -86,7 +86,7 @@ class RegistrationScreen:
 
         # ---------------------------------
 
-        self.title = Label(self.registrationScreen, text="Registeration Form", font=(Constants.Constants.titleFont, 25),background=Constants.Constants.frameBackground )
+        self.title = Label(self.registrationScreen, text="Registration Form", font=(Constants.Constants.titleFont, 25),background=Constants.Constants.frameBackground )
         self.title.place(relx=0, rely=0, relwidth=1 , relheight= 0.09)
 
         photo = tk.PhotoImage(file="left_arrow.png").subsample(11, 11)
@@ -113,9 +113,12 @@ class RegistrationScreen:
         self.labelgender = Label(self.personal_info, text="Gender", font=(Constants.Constants.subTitleFont, 15),background=Constants.Constants.frameBackground)
         self.labelgender.place(relx=0.57, rely=0.1, relwidth=0.1)
 
-        self.gender = ttk.Entry(self.personal_info, font=(Constants.Constants.subTitleFont, 15), style="pad.TEntry",
-                                textvariable=self.gender)
-        self.gender.place(relx=0.7, rely=0.1, relwidth=0.2)
+        self.combo_box_gender = ttk.Combobox(self.personal_info, font=(Constants.Constants.subTitleFont, 15),
+                                      textvariable=self.gender)
+        self.combo_box_gender["value"] = (
+        "Select Option", "Male", "Female", "Other")
+        self.combo_box_gender.current(0)
+        self.combo_box_gender.place(relx=0.7, rely=0.1, relwidth=0.2)
 
         self.labelphone = Label(self.personal_info, text="Phone", font=(Constants.Constants.subTitleFont, 15),
                                background=Constants.Constants.frameBackground)
@@ -189,6 +192,3 @@ class RegistrationScreen:
 
 
         self.registrationScreen.mainloop()
-
-
-# obj = RegistrationScreen()

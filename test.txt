@@ -1,0 +1,3 @@
+Writing into the file.
+We create a file first and then write in the file
+Welcome to the world of python

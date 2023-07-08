@@ -9,13 +9,15 @@ from tkinter import messagebox
 class LoginScreen:
     def _checkUserNamePassword(self , root1 , root2):
         flag = False
-        self.mycursor.execute("SELECT * FROM USERS;")
-        resultSet = self.mycursor.fetchall()    #returns List of Tuples
-        for element in resultSet:
-            if(element[0] == self.username.get() and element[1]== self.password.get()):
-                flag = True
 
-        if(flag):
+        # SQL INJECTION CODE ' OR 1 = 1 OR '
+
+        
+        sql = f'SELECT * FROM USERS WHERE USERNAME = \'{self.username.get()}\' AND PASSWORD = \'{self.password.get()}\';'
+        print(sql)
+        self.mycursor.execute(sql)
+        result = self.mycursor.fetchall()
+        if (len(result) > 0):
             self.mydb.close()
             print('Login :- ', self.mydb.is_connected())
             root1.destroy()
@@ -23,7 +25,24 @@ class LoginScreen:
         else:
             title = "Error while Logging In"
             text = "Invalid Unsername Or Password"
-            messagebox.showinfo(title , text)
+            messagebox.showinfo(title, text)
+
+
+        # self.mycursor.execute("SELECT * FROM USERS;")
+        # resultSet = self.mycursor.fetchall()    #returns List of Tuples
+        # for element in resultSet:
+        #     if(element[0] == self.username.get() and element[1]== self.password.get()):
+        #         flag = True
+        #
+        # if(flag):
+        #     self.mydb.close()
+        #     print('Login :- ', self.mydb.is_connected())
+        #     root1.destroy()
+        #     root2.HomeScreen()
+        # else:
+        #     title = "Error while Logging In"
+        #     text = "Invalid Unsername Or Password"
+        #     messagebox.showinfo(title , text)
 
 
     def __init__(self):
